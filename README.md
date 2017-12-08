@@ -1,6 +1,3 @@
-# check_in_app
-
-> A Vue.js project
 
 ## Build Setup
 
