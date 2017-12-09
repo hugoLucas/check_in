@@ -40,16 +40,24 @@
         <label class="label" v-b-popover.hover="'Are you in need of an escort during your time with us?'" title="Escort Services">Are you in need of an escort?</label>
         </br>
         <b-form-radio-group v-model="selectedEscort" buttons button-variant="info" name="escortButtons" :options="this.optionsEscort"> </b-form-radio-group>
-        <b-form-input v-show="selectedEscort == 'true'" name="escortName" v-model="escortName" v-validate="'required|alpha'" :class="{'input': true, 'is-danger': errors.has('escortName') }" type="text" placeholder="Gustav Ludwig Hertz"></b-form-input>
+        <b-form-input v-show="selectedEscort == 'true'" name="escortName" v-model="escortName" v-validate="'alpha'" :class="{'input': true, 'is-danger': errors.has('escortName') }" type="text" placeholder="Gustav Ludwig Hertz"></b-form-input>
       </div>
 
       <b-button type="submit" variant="primary" size="lg">Submit</b-button>
+
+      <b-modal v-model="showAlert" title="Alert" header-bg-variant="danger" header-text-variant="light">
+        <p class="my-4">Please correct the errors in you submission!</p>
+        <div slot="modal-footer" class="w-100">
+          <b-btn size="sm" class="float-right" variant="primary" @click="showAlert=false"> Ok </b-btn>
+        </div>
+     </b-modal>
     </b-form>
   </div>
 </template>
 
 <script>
 import Vue from 'vue';
+import axios from 'axios';
 import VeeValidate from 'vee-validate';
 
 Vue.use(VeeValidate);
@@ -57,6 +65,7 @@ Vue.use(VeeValidate);
 export default {
   data() {
     return {
+      showAlert: false,
       email: '',
       name: '',
       company: '',
@@ -73,6 +82,8 @@ export default {
         { text: 'Yes', value: 'true' },
       ],
       escortName: '',
+      pageError: null,
+      pageResponse: null,
     };
   },
   methods: {
@@ -80,25 +91,40 @@ export default {
       this.$validator.validateAll().then((result) => {
         if (result) {
           // eslint-disable-next-line
-          alert('From Submitted!');
+          this.submitForm();
           return;
         }
-
-        alert('Correct them errors!');
+        this.showAlert = true;
       });
     },
     submitForm() {
-      const data = {
+      const officialVisit = this.stringToBoolean(this.selectedVisit);
+      const inNeedOfEscort = this.stringToBoolean(this.selectedEscort);
+      const newInfo = {
         name: this.name,
         email: this.email,
+        telephone: this.phone,
         company: this.company,
-        phone: this.phone,
-        escort: this.selectedEscort,
-        escortName: this.escortName,
-        visit: this.selectedVisit,
+        official: officialVisit,
+        escort: inNeedOfEscort,
       };
-      console.log(data);
-      alert('Hello!');
+      if (inNeedOfEscort) {
+        newInfo.escortName = this.escortName;
+      } else {
+        newInfo.escortName = '';
+      }
+      axios.post('http://localhost:3000/visitor/add', newInfo).then((response) => {
+        if (response.status == 200) {
+          alert('Thank you!');
+        } else {
+          alert('Problem :(');
+        }
+      }).then((error) => {
+        this.pageError = error;
+      });
+    },
+    stringToBoolean(str) {
+      return str === 'true';
     },
   },
 };
