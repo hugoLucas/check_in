@@ -29,6 +29,24 @@ module.exports = (() => {
       }
     })  
   })
+
+  router.get('/get/:offset/:max', (req, res) => {
+    const offset = parseInt(req.params.offset)
+    const max = parseInt(req.params.max)
+
+    const skip = offset * max
+    const limit = max
+    
+    Visitor.find({}, '', {skip: skip, limit: limit}, (err, docs) => {
+      if (err){
+        console.log("ERROR", err)
+        res.status(400).send()
+      } else {
+        console.log("RECORDS", docs)
+        res.status(200).json(docs).send()
+      }
+    })
+  })
   
   return router
 })();

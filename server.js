@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/visitor', visitor)
 
 app.use(function(err, req, res, next) {
-  console.log(error)
+  console.log(err)
 })
 
 const port =  3000;
