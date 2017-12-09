@@ -21,11 +21,11 @@ module.exports = (() => {
     Visitor.create(newInfo, (err) => {
       if (err) {
         console.log('Error detected: ', err)
-        res.status(400).send()
+        res.status(400).json({result: "NO"}).send()
       }
       else {
         console.log('User created successfully!')
-        res.status(200).send()
+        res.status(200).json({result: "OK"}).send()
       }
     })  
   })

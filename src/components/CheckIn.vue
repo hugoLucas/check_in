@@ -2,34 +2,26 @@
   <div id="app">
     <h1>Registration</h1>
     <b-form @submit.prevent="validateBeforeSubmit">
-      <div class="column is-8">
-        <label class="label" v-b-popover.hover="'Tell us your name.'" title="Name" for="name">Name</label>
-        <p :class="{ 'control': true }">
-          <b-form-input v-model="name" v-validate="'required|alpha'" :class="{'input': true, 'is-danger': errors.has('name') }" name="name" type="text" placeholder="Max Plank"></b-form-input>
-          <small v-show="errors.has('name')" class="help is-danger">{{ errors.first('name') }}</small>
-        </p>
-      </div>
-      <div class="column is-8">
-        <label class="label" v-b-popover.hover="'Let us know the which email address is best to reach you.'" title="Email" for="email">Email</label>
-        <p :class="{ 'control': true }">
-          <b-form-input v-model="email" v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('email') }" name="email" type="text" placeholder="max@lambda.com"></b-form-input>
-          <small v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</small>
-        </p>
-      </div>
-      <div class="column is-8">
-        <label class="label" v-b-popover.hover="'Enter a number where we can reach you.'" title="Phone Number">Phone Number</label>
-        <p :class="{ 'control': true }">
-          <b-form-input name="phone" v-model="phone" v-validate="'required|numeric|max:10'" :class="{'input': true, 'is-danger': errors.has('phone') }" type="text" placeholder="(105) 457-1800"></b-form-input>
-          <small v-show="errors.has('phone')" class="help is-danger">{{ errors.first('phone') }}</small>
-        </p>
-      </div>
-      <div class="column is-8">
-        <label class="label" v-b-popover.hover="'Enter the name of your current employer.'" title="Company">Company Name</label>
-        <p :class="{ 'control': true }">
-          <b-form-input name="company" v-model="company" v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('company') }" type="text" placeholder="University of Kiel"></b-form-input>
-          <small v-show="errors.has('company')" class="help is-danger">{{ errors.first('company') }}</small>
-        </p>
-      </div>
+      <label class="label" v-b-popover.hover="'Tell us your name.'" title="Name" for="name">Name</label>
+      <p :class="{ 'control': true }">
+        <b-form-input v-model="name" v-validate="'required|alpha_spaces'" :class="{'input': true, 'is-danger': errors.has('name') && formSubmitted}" name="name" type="text" placeholder="Max Plank"></b-form-input>
+        <small v-show="errors.has('name') && formSubmitted" class="help is-danger">{{ errors.first('name') }}</small>
+      </p>
+      <label class="label" v-b-popover.hover="'Let us know the which email address is best to reach you.'" title="Email" for="email">Email</label>
+      <p :class="{ 'control': true }">
+        <b-form-input v-model="email" v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('email') && formSubmitted}" name="email" type="text" placeholder="max@lambda.com"></b-form-input>
+        <small v-show="errors.has('email') && formSubmitted" class="help is-danger">{{ errors.first('email') }}</small>
+      </p>
+      <label class="label" v-b-popover.hover="'Enter a number where we can reach you.'" title="Phone Number">Phone Number</label>
+      <p :class="{ 'control': true }">
+        <b-form-input name="phone" v-model="phone" v-validate="'required|numeric|max:10'" :class="{'input': true, 'is-danger': errors.has('phone') && formSubmitted}" type="text" placeholder="(105) 457-1800"></b-form-input>
+        <small v-show="errors.has('phone') && formSubmitted" class="help is-danger">{{ errors.first('phone') }}</small>
+      </p>
+      <label class="label" v-b-popover.hover="'Enter the name of your current employer.'" title="Company">Company Name</label>
+      <p :class="{ 'control': true }">
+        <b-form-input name="company" v-model="company" v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('company') && formSubmitted}" type="text" placeholder="University of Kiel"></b-form-input>
+        <small v-show="errors.has('company') && formSubmitted" class="help is-danger">{{ errors.first('company') }}</small>
+      </p>
 
       <div class="radios">
         <label class="label" v-b-popover.hover="'Is your visit with us on behalf of your employer?'" title="Official Visit?">Business or Pleasure?</label>
@@ -40,17 +32,36 @@
         <label class="label" v-b-popover.hover="'Are you in need of an escort during your time with us?'" title="Escort Services">Are you in need of an escort?</label>
         </br>
         <b-form-radio-group v-model="selectedEscort" buttons button-variant="info" name="escortButtons" :options="this.optionsEscort"> </b-form-radio-group>
-        <b-form-input v-show="selectedEscort == 'true'" name="escortName" v-model="escortName" v-validate="'alpha'" :class="{'input': true, 'is-danger': errors.has('escortName') }" type="text" placeholder="Gustav Ludwig Hertz"></b-form-input>
+        <div class='escortInfo' v-show="selectedEscort == 'true'">
+          <label class="label" v-b-popover.hover="'Please enter the name of your desired escort.'" title="escortName">Escort Name</label>
+          <b-form-input name="escortName" v-model="escortName" v-validate="'required|alpha_spaces'" :class="{'input': true, 'is-danger': errors.has('escortName') && this.stringToBoolean(this.selectedEscort) && formSubmitted}" type="text" placeholder="Gustav Ludwig Hertz"></b-form-input>
+          <small v-show="errors.has('escortName') && formSubmitted" class="help is-danger">{{ errors.first('escortName') }}</small>
+        </div>
       </div>
 
       <b-button type="submit" variant="primary" size="lg">Submit</b-button>
 
-      <b-modal v-model="showAlert" title="Alert" header-bg-variant="danger" header-text-variant="light">
-        <p class="my-4">Please correct the errors in you submission!</p>
+      <b-modal v-model="showErrorAlert" title="Alert" header-bg-variant="warning" header-text-variant="light">
+        <p class="my-4">Please correct the errors in you submission.</p>
         <div slot="modal-footer" class="w-100">
-          <b-btn size="sm" class="float-right" variant="primary" @click="showAlert=false"> Ok </b-btn>
+          <b-btn size="sm" class="float-right" variant="primary" @click="showErrorAlert=false"> Ok </b-btn>
         </div>
-     </b-modal>
+      </b-modal>
+
+      <b-modal v-model="showSuccessAlert" title="Alert" header-bg-variant="success" header-text-variant="light">
+        <p class="my-4">Thank you for your submission.</p>
+        <div slot="modal-footer" class="w-100">
+          <b-btn size="sm" class="float-right" variant="primary" @click="showSuccessAlert=false"> Ok </b-btn>
+        </div>
+      </b-modal>
+
+      <b-modal v-model="showNetworkErrorAlert" title="Alert" header-bg-variant="danger" header-text-variant="light">
+        <p class="my-4">Your submission did not go through, please try again.</p>
+        <div slot="modal-footer" class="w-100">
+          <b-btn size="sm" class="float-right" variant="primary" @click="showNetworkErrorAlert=false"> Ok </b-btn>
+        </div>
+      </b-modal>
+
     </b-form>
   </div>
 </template>
@@ -65,7 +76,9 @@ Vue.use(VeeValidate);
 export default {
   data() {
     return {
-      showAlert: false,
+      showErrorAlert: false,
+      showSuccessAlert: false,
+      showNetworkErrorAlert: false,
       email: '',
       name: '',
       company: '',
@@ -82,12 +95,11 @@ export default {
         { text: 'Yes', value: 'true' },
       ],
       escortName: '',
-      pageError: null,
-      pageResponse: null,
     };
   },
   methods: {
     validateBeforeSubmit() {
+      this.formSubmitted = true;
       this.$validator.validateAll().then((result) => {
         if (result) {
           // eslint-disable-next-line
@@ -114,14 +126,27 @@ export default {
         newInfo.escortName = '';
       }
       axios.post('http://localhost:3000/visitor/add', newInfo).then((response) => {
-        if (response.status == 200) {
-          alert('Thank you!');
+        if (response.data.result === 'OK') {
+          this.showSuccessAlert = true;
+          this.clearForm();
         } else {
-          alert('Problem :(');
+          this.showNetworkErrorAlert = true;
         }
       }).then((error) => {
-        this.pageError = error;
+        if (error) {
+          this.showNetworkErrorAlert = true;
+        }
       });
+    },
+    clearForm() {
+      this.name = '';
+      this.email = '';
+      this.phone = '';
+      this.company = '';
+      this.selectedVisit = 'false';
+      this.selectedEscort = 'false';
+      this.escortName = 'true';
+      this.formSubmitted = false;
     },
     stringToBoolean(str) {
       return str === 'true';
