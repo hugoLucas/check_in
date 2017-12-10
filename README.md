@@ -1,18 +1,21 @@
 # About
 This application is a simple Mongo, Express, Vue, and Node web application that allows visitors to check-in at an event by supplying thier basic contact information. The application also allows administrators to view this information in table format. 
 
-# User View 
-This page can be accessed from `http://<address>:<port>/`. This page's features include:  
-  1. Automatic and Conditional Form Validation 
-  2. Pop-Up Descriptions for Each Field 
-  3. Automatic redirection on Submission 
-  4. Email notifications for Sucessful User Check-Ins
+# Non-functional Requirements
+## Design 
+The application should be able to run in tablet environment. Therefore each of the pages displayed to the user/administrator should be finger-friendly, i.e. each item that can be selected should be large enough for a human finger to tap on but not so large that it appears odd when viewed from a desktop computer. Furthermore selectable components should maintain large enough margins to not be spaced so close together and they should be well padded to increase the total selectable area of the component without increasing its size. Lastly, when a component requires user input the keyboard displayed on the screen should automatically adapt itself to the input required. This not only makes it faster for the user to input information while checking-in, but it will also reduce the likelihood of user-input errors and thus increase check-in throughput. 
 
-# Admin View
-This page can be accessed from `http://<adress>:<port>/admin`. This page's features include:
-  1. Administrator Authentication 
-  2. Result Pagination 
-  3. Loading Icon for Backend Data Retrival
+## Tools 
+This application will make use of the MEVN web-stack (MongoDB, Express.js, Vue.js, and Node.js). I have chosen this web-stack as it is comprised of the technologies I used during my CSC 583 - Software Processes course. Therefore I am familar with these techologies and this will lead to the project having a higher likelihood of success. This stack was also chosen as the MEN-portion of the stack is comprised of industry standard technologies while the V-portion is known to be very user friendly. 
+
+To actually get started working on this project I chose vue-cli as it makes starting a Vue.js project from scratch easy. I also chose it because it configures webpack for you and makes it very easy to run the application. 
+
+To make the application more visually appealing I have included Bootstrap-Vue as it was simple enough to install and has very well written documentation. I research other styling frameworks such as Buefy and Vue-Material, but I found the simplicity of Bootstrap-Vue the most appealing. 
+
+# Architecture 
+
+
+# Plan of Action 
 
 # Installation Instructions
 Before installing this application make sure that you have already installed Node and the Node Package Manager (NPM). Once you have done that clone this repository: 
@@ -43,3 +46,16 @@ Lastly, create a `.env` file with the following fields:
 ```
 TO-DO 
 ```
+
+# User View 
+This page can be accessed from `http://<address>:<port>/`. This page's features include:  
+  1. Automatic and Conditional Form Validation 
+  2. Pop-Up Descriptions for Each Field 
+  3. Automatic redirection on Submission 
+  4. Email notifications for Sucessful User Check-Ins
+
+# Admin View
+This page can be accessed from `http://<adress>:<port>/admin`. This page's features include:
+  1. Administrator Authentication 
+  2. Result Pagination 
+  3. Loading Icon for Backend Data Retrival
