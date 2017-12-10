@@ -34,7 +34,7 @@
         <b-form-radio-group v-model="selectedEscort" buttons button-variant="info" name="escortButtons" :options="this.optionsEscort"> </b-form-radio-group>
         <div class='escortInfo' v-show="selectedEscort == 'true'">
           <label class="label" v-b-popover.hover="'Please enter the name of your desired escort.'" title="escortName">Escort Name</label>
-          <b-form-input name="escortName" v-model="escortName" v-validate="'required|alpha_spaces'" :class="{'input': true, 'is-danger': errors.has('escortName') && this.stringToBoolean(this.selectedEscort) && formSubmitted}" type="text" placeholder="Gustav Ludwig Hertz"></b-form-input>
+          <b-form-input name="escortName" v-model="escortName" v-validate="escortRules" :class="{'input': true, 'is-danger': errors.has('escortName') && this.stringToBoolean(this.selectedEscort) && formSubmitted}" type="text" placeholder="Gustav Ludwig Hertz"></b-form-input>
           <small v-show="errors.has('escortName') && formSubmitted" class="help is-danger">{{ errors.first('escortName') }}</small>
         </div>
       </div>
@@ -96,6 +96,11 @@ export default {
       ],
       escortName: '',
     };
+  },
+  computer: {
+    escortRules (){
+      return this.selectedEscort == 'true' ? 'required|alpha-spaces' : ''
+    }
   },
   methods: {
     validateBeforeSubmit() {
