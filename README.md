@@ -13,9 +13,48 @@ To actually get started working on this project I chose vue-cli as it makes star
 To make the application more visually appealing I have included Bootstrap-Vue as it was simple enough to install and has very well written documentation. I research other styling frameworks such as Buefy and Vue-Material, but I found the simplicity of Bootstrap-Vue the most appealing. 
 
 # Architecture 
-
+This application uses the tried-and-true three-tier architecture. Vue.js handles the front-end visual interface and all dynamic routing (first-tier). Express.js and Node.js provide the front-end with all the API-endpoints needed to populate the front-end with useful data (second-tier). MongoDB is what makes user data presist and what API-endpoints use to store and retrieve data (third-tier).  
 
 # Plan of Action 
+
+## Frontend 
+- [ ] Install vue-cli and start a new vue project
+- [ ] Create a check-in and administrator components
+- [ ] Complete the check-in component: 
+  - [ ] Install Vee-Validate, Axios, and Bootstrap-Vue
+  - [ ] Create form outline 
+  - [ ] Add form front-end validation 
+  - [ ] Write form submission method 
+  - [ ] Add form styling 
+  - [ ] Add automatic form clearing after submission 
+- [ ] Complete the admin component: 
+  - [ ] Install Vue-Loading-Spinner 
+  - [ ] Create basic table structure 
+  - [ ] Add pagination buttons and develope pagination strategy  
+  - [ ] Write backend query method 
+  - [ ] Add loading icon
+  - [ ] Create modal sign-in form 
+  - [ ] Implement sign-in frontend logic 
+
+## Backend
+- [ ] Install Node.js and Node Package Manager
+- [ ] Complete server.js file 
+- [ ] Create Check-In backend infrastructure 
+  - [ ] Create Visitor schema 
+  - [ ] Create `/visitor/add` API-endpoint to handle form submission
+  - [ ] Create `/visitor/get/:offset/:max` API-endpoint to handle data retrieval and pagination
+  - [ ] Add automatic email generation to `/visitor/add`
+- [ ] Create Admin backend infrastructure 
+  - [ ] Create Admin schema 
+  - [ ] Create `/admin/add` API-endpoint to handle new admin creation
+  - [ ] Create `/admin/login` API-endpoint to handle authentication 
+  - [ ] Add password hashin to `/admin/login` API-endpoint
+- [ ] Write README
+
+## General 
+- [ ] Add tablet specific styling to frontend 
+- [ ] Deploy to Digital Ocean
+- [ ] Test application on tablet
 
 # Installation Instructions
 Before installing this application make sure that you have already installed Node and the Node Package Manager (NPM). Once you have done that clone this repository: 
