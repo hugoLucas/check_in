@@ -30,7 +30,6 @@
           <b-button :disabled="this.pageNumber == 1" v-on:click="decrement" size='lg' :variant="buttonStylePrev"> Previous </b-button>
           <b-button :disabled="this.noMorePages" v-on:click="increment" size='lg' :variant="buttonStyleNext"> Next </b-button>
         </div>
-        <!-- <h3>{{ this.currentPageResults}}</h3> -->
         <b-table striped hover :items="currentPageResults"></b-table>
       </div>
     </div>
@@ -114,7 +113,6 @@ export default {
         const dataRetrieved = response.data;
         if (Object.keys(dataRetrieved).length <= 0) {
           this.noMorePages = true;
-          // this.currentPageResults = null;
         } else {
           this.processResults(dataRetrieved);
           this.noMorePages = false;
