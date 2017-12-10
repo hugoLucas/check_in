@@ -18,41 +18,42 @@ This application uses the tried-and-true three-tier architecture. Vue.js handles
 # Plan of Action 
 
 ## Frontend 
-- [ ] Install vue-cli and start a new vue project
-- [ ] Create a check-in and administrator components
-- [ ] Complete the check-in component: 
-  - [ ] Install Vee-Validate, Axios, and Bootstrap-Vue
-  - [ ] Create form outline 
-  - [ ] Add form front-end validation 
-  - [ ] Write form submission method 
-  - [ ] Add form styling 
-  - [ ] Add automatic form clearing after submission 
-- [ ] Complete the admin component: 
-  - [ ] Install Vue-Loading-Spinner 
-  - [ ] Create basic table structure 
-  - [ ] Add pagination buttons and develope pagination strategy  
-  - [ ] Write backend query method 
-  - [ ] Add loading icon
-  - [ ] Create modal sign-in form 
-  - [ ] Implement sign-in frontend logic 
+- [x] Install vue-cli and start a new vue project
+- [x] Create a check-in and administrator components
+- [x] Complete the check-in component: 
+  - [x] Install Vee-Validate, Axios, and Bootstrap-Vue
+  - [x] Create form outline 
+  - [x] Add form front-end validation 
+  - [x] Write form submission method 
+  - [x] Add form styling 
+  - [x] Add automatic form clearing after submission 
+- [x] Complete the admin component: 
+  - [x] Install Vue-Loading-Spinner 
+  - [x] Create basic table structure 
+  - [x] Add pagination buttons and develope pagination strategy  
+  - [x] Write backend query method 
+  - [x] Add loading icon
+  - [x] Create modal sign-in form 
+  - [x] Implement sign-in frontend logic 
 
 ## Backend
-- [ ] Install Node.js and Node Package Manager
-- [ ] Complete server.js file 
-- [ ] Create Check-In backend infrastructure 
-  - [ ] Create Visitor schema 
-  - [ ] Create `/visitor/add` API-endpoint to handle form submission
-  - [ ] Create `/visitor/get/:offset/:max` API-endpoint to handle data retrieval and pagination
-  - [ ] Add automatic email generation to `/visitor/add`
-- [ ] Create Admin backend infrastructure 
-  - [ ] Create Admin schema 
-  - [ ] Create `/admin/add` API-endpoint to handle new admin creation
-  - [ ] Create `/admin/login` API-endpoint to handle authentication 
-  - [ ] Add password hashin to `/admin/login` API-endpoint
-- [ ] Write README
+- [x] Install Node.js and Node Package Manager
+- [x] Complete server.js file 
+- [x] Create Check-In backend infrastructure 
+  - [x] Create Visitor schema 
+  - [x] Create `/visitor/add` API-endpoint to handle form submission
+  - [x] Create `/visitor/get/:offset/:max` API-endpoint to handle data retrieval and pagination
+  - [x] Add automatic email generation to `/visitor/add`
+- [x] Create Admin backend infrastructure 
+  - [x] Create Admin schema 
+  - [x] Create `/admin/add` API-endpoint to handle new admin creation
+  - [x] Create `/admin/login` API-endpoint to handle authentication 
+  - [x] Add password hashin to `/admin/login` API-endpoint
 
 ## General 
+- [ ] Finish README
 - [ ] Add tablet specific styling to frontend 
+- [ ] Add dummy data to DB
 - [ ] Deploy to Digital Ocean
 - [ ] Test application on tablet
 
