@@ -30,26 +30,26 @@ module.exports = (() => {
         console.log('User created successfully!')
         // WARNING: Must enable access to less-secure applications in gmail account 
         // for this to work properly
-        const transporter = nodemailer.createTransport({
-          service: 'Gmail',
-          auth: {
-            user: process.env.SOURCE_EMAIL,
-            pass: process.env.SOURCE_PASSWORD,
-          }
-        });
-        const options = {
-          from: process.env.SOURCE_EMAIL,
-          to: process.env.DESTINATION_EMAIL,
-          subject: 'A New Visitor Has Checked In!',
-          text: `${newInfo.name} has justed checked in!` 
-        }
-        transporter.sendMail(options, (error, info) => {
-          if (error) {
-            console.log('EMAIL-ERROR', error)
-          } else {
-            console.log('EMAIL SEND SUCCESSFULLY!'); 
-          }
-        })
+        // const transporter = nodemailer.createTransport({
+        //   service: 'Gmail',
+        //   auth: {
+        //     user: process.env.SOURCE_EMAIL,
+        //     pass: process.env.SOURCE_PASSWORD,
+        //   }
+        // });
+        // const options = {
+        //   from: process.env.SOURCE_EMAIL,
+        //   to: process.env.DESTINATION_EMAIL,
+        //   subject: 'A New Visitor Has Checked In!',
+        //   text: `${newInfo.name} has justed checked in!` 
+        // }
+        // transporter.sendMail(options, (error, info) => {
+        //   if (error) {
+        //     console.log('EMAIL-ERROR', error)
+        //   } else {
+        //     console.log('EMAIL SEND SUCCESSFULLY!'); 
+        //   }
+        // })
         res.status(200).json({result: "OK"}).send()
       }
     })  

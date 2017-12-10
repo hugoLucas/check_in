@@ -1,42 +1,104 @@
 <template>
   <div id="app">
-    <div class="loadingIcon" v-show="loading">
-      <circle8></circle8>
+    <div id="loginView" v-if="!this.authenticated">
+      <b-modal v-model="showLogin" title="Login" :header-bg-variant="this.accessDenied ? 'danger' : 'info'"
+      :no-close-on-backdrop="true" :no-close-on-esc="true" :cancel-disabled="true"
+      :hide-header-close="true" :hide-footer="true" header-text-variant="light">
+        <label class="label" title="username" for="username">Username</label>
+        <p :class="{ 'control': true }">
+          <b-form-input v-model="username" v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('username')}" 
+            name="username" type="text" placeholder="admin"></b-form-input>
+          <small v-show="errors.has('username')" class="help is-danger">{{ errors.first('username') }}</small>
+        </p>
+        <label class="label" title="password" for="password">Password</label>
+        <p :class="{ 'control': true }">
+          <b-form-input v-model="password" v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('password')}" 
+            name="password" type="text" placeholder="admin"></b-form-input>
+          <small v-show="errors.has('password')" class="help is-danger">{{ errors.first('password') }}</small>
+        </p>
+        </br>
+        <b-btn class="mt-3" :variant="this.accessDenied ? 'outline-danger' : 'outline-info'" 
+          block @click="login">{{this.accessDenied ? 'Access Denied' : 'Login'}}</b-btn>
+      </b-modal>
     </div>
-    <div v-show="!loading">
-      <div class="navigation-buttons">
-        <b-button :disabled="this.pageNumber == 1" v-on:click="decrement" size='lg' variant="primary"> Previous </b-button>
-        <b-button :disabled="this.noMorePages" v-on:click="increment" size='lg' variant="primary"> Next </b-button>
+    <div id="adminView" v-else>
+      <div class="loadingIcon" v-show="loading">
+        <circle8></circle8>
       </div>
-      <!-- <h3>{{ this.currentPageResults}}</h3> -->
-      <b-table striped hover :items="currentPageResults"></b-table>
-    </div>
-    <div v-show="noMorePages">
-      <h1>End of the Line!</h1>
+      <div v-show="!loading">
+        <div class="navigation-buttons">
+          <b-button :disabled="this.pageNumber == 1" v-on:click="decrement" size='lg' :variant="buttonStylePrev"> Previous </b-button>
+          <b-button :disabled="this.noMorePages" v-on:click="increment" size='lg' :variant="buttonStyleNext"> Next </b-button>
+        </div>
+        <!-- <h3>{{ this.currentPageResults}}</h3> -->
+        <b-table striped hover :items="currentPageResults"></b-table>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import Vue from 'vue';
+import VeeValidate from 'vee-validate';
 import { Circle8 } from 'vue-loading-spinner';
 import axios from 'axios';
 
+Vue.use(VeeValidate);
 
 export default {
   data() {
     return {
+      username: '',
+      password: '',
       pageNumber: 1,
       maxItemsPerPage: 10,
       currentPageResults: new Array(),
-      columns: ['Name', 'PhoneNumber', 'EmailAddress', 'Comapany', 'EscortName', 'OfficialVisit'],
       noMorePages: false,
       loading: false,
+      authenticated: false,
+      showLogin: true,
+      accessDenied: false,
     };
   },
   components: {
     Circle8,
   },
+  computed: {
+    buttonStyleNext() {
+      return !this.noMorePages ? 'primary' : 'danger';
+    },
+    buttonStylePrev() {
+      return this.pageNumber > 1 ? 'primary' : 'danger';
+    }
+  },
   methods: {
+    login () {
+      this.$validator.validateAll().then((result) => {
+        if (result) {
+          // eslint-disable-next-line
+          axios.post('http://localhost:3000/admin/login', {
+            username: this.username,
+            password: this.password,
+          }).then((response) => {
+            if (response.status === 200) {
+              this.authenticated = true;
+              this.showLogin = false;
+            } else {
+              this.accessDenied = true;
+              window.setTimeout(() => {
+                this.accessDenied = false;
+              }, 1500); 
+            }
+          }).then((error) => {
+            if (error) {
+              console.log('login error');
+            }
+          });
+        }
+        return;
+      });
+    },
+
     increment() {
       this.pageNumber = this.pageNumber + 1;
       this.getPostData(this.pageNumber);
@@ -52,7 +114,7 @@ export default {
         const dataRetrieved = response.data;
         if (Object.keys(dataRetrieved).length <= 0) {
           this.noMorePages = true;
-          this.currentPageResults = null;
+          // this.currentPageResults = null;
         } else {
           this.processResults(dataRetrieved);
           this.noMorePages = false;
@@ -114,5 +176,11 @@ body {
 
 .navigation-buttons {
   padding-bottom: 20px;
+}
+
+.is-danger {
+  border-color: red;
+  color: red;
+  font-weight: bold;
 }
 </style>
