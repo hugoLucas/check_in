@@ -51,9 +51,9 @@ This application uses the tried-and-true three-tier architecture. Vue.js handles
   - [x] Add password hashin to `/admin/login` API-endpoint
 
 ## General 
-- [ ] Finish README
+- [x] Finish README
 - [ ] Add tablet specific styling to frontend 
-- [ ] Add dummy data to DB
+- [x] Add dummy data to DB
 - [X] Deploy to Digital Ocean
 - [X] Test application on tablet
 
@@ -97,9 +97,12 @@ This page can be accessed from `http://<address>:<port>/`. This page's features 
   2. Pop-Up Descriptions for Each Field 
   3. Automatic redirection on Submission 
   4. Email notifications for Sucessful User Check-Ins
+![User View](/pictures/registration_view_example.png?raw=true "User View")
 
 # Admin View
 This page can be accessed from `http://<adress>:<port>/admin`. This page's features include:
   1. Administrator Authentication 
   2. Result Pagination 
   3. Loading Icon for Backend Data Retrival
+  4. Sortable Table
+![Admin View](/pictures/admin_view_example.png?raw=true "Admin View")
