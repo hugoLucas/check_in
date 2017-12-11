@@ -131,7 +131,7 @@ export default {
       this.$validator.validateAll().then((result) => {
         if (result) {
           // eslint-disable-next-line
-          axios.post('http://localhost:3000/admin/login', {
+          axios.post('/backend/admin/login', {
             username: this.username,
             password: this.password,
           }).then((response) => {
@@ -159,7 +159,7 @@ export default {
     },
     infiniteHandler($state) {
       this.pageNumber = this.pageNumber + 1;
-      const apiPath = `http://localhost:3000/visitor/get/${this.pageNumber - 1}/${this.maxItemsPerPage}`;
+      const apiPath = `/backend/visitor/get/${this.pageNumber - 1}/${this.maxItemsPerPage}`;
       axios.get(apiPath).then((response) => {
         const dataRetrieved = response.data;
         if (Object.keys(dataRetrieved).length <= 0) {

@@ -8,6 +8,8 @@ const express = require('express'),
 
 require('dotenv').config();
 console.log(process.env.MONGO_URI);
+
+mongoose.Promise = global.Promise; 
 mongoose.connect(process.env.MONGO_URI);
 
 let app = express()

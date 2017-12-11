@@ -130,7 +130,7 @@ export default {
       } else {
         newInfo.escortName = '';
       }
-      axios.post('http://localhost:3000/visitor/add', newInfo).then((response) => {
+      axios.post('/backend/visitor/add', newInfo).then((response) => {
         if (response.data.result === 'OK') {
           this.showSuccessAlert = true;
           this.clearForm();
