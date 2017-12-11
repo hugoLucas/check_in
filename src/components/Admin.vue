@@ -30,7 +30,15 @@
           <b-button :disabled="this.pageNumber == 1" v-on:click="decrement" size='lg' :variant="buttonStylePrev"> Previous </b-button>
           <b-button :disabled="this.noMorePages" v-on:click="increment" size='lg' :variant="buttonStyleNext"> Next </b-button>
         </div>
-        <b-table striped hover :fields="fields" :items="currentPageResults"></b-table>
+        <b-table striped hover :fields="fields" :items="currentPageResults">
+          <template slot="index" scope="data">
+            {{ (data.index + 1) + ((pageNumber - 1) * maxItemsPerPage)}}
+          </template>
+          <template slot="PhoneNumber" scope="data">
+            {{ "(" + data.item.PhoneNumber.substring(0,3) + ") " 
+                + data.item.PhoneNumber.substring(3,6) + "-" + data.item.PhoneNumber.substring(6,10)}}
+          </template>
+        </b-table>
       </div>
     </div>
   </div>
@@ -60,6 +68,7 @@ export default {
       accessDenied: false,
       networkError: false,
       fields: [
+        'index',
         {
           key: 'Name',
           label: 'Name',
@@ -195,7 +204,7 @@ export default {
       for (let i = 0; i < results.length; i += 1) {
         const dataRow = {
           Name: results[i].name,
-          PhoneNumber: results[i].telephone,
+          PhoneNumber: '' + results[i].telephone,
           EmailAddress: results[i].email,
           Comapany: results[i].company,
         };
