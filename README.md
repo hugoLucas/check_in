@@ -84,7 +84,11 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 ```
 Lastly, create a `.env` file with the following fields:
 ```
-TO-DO 
+PORT=<frontend port number>
+MONGO_URI=<address for mongodb>
+SOURCE_EMAIL=<gmail account that generates admin emails>
+SOURCE_PASSWORD=<password for above gmail account>
+DESTINATION_EMAIL=<where to send admin emails>
 ```
 
 # User View 
