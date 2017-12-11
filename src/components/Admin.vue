@@ -13,7 +13,7 @@
         <label class="label" title="password" for="password">Password</label>
         <p :class="{ 'control': true }">
           <b-form-input v-model="password" v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('password')}" 
-            name="password" type="text" placeholder="admin"></b-form-input>
+            name="password" type="password" placeholder="admin"></b-form-input>
           <small v-show="errors.has('password')" class="help is-danger">{{ errors.first('password') }}</small>
         </p>
         </br>
