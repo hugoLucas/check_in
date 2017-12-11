@@ -98,9 +98,9 @@ export default {
     };
   },
   computer: {
-    escortRules (){
-      return this.selectedEscort == 'true' ? 'required|alpha-spaces' : ''
-    }
+    escortRules() {
+      return this.selectedEscort === 'true' ? 'required|alpha-spaces' : '';
+    },
   },
   methods: {
     validateBeforeSubmit() {

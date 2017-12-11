@@ -15,8 +15,8 @@ module.exports = (() => {
       email: req.body.email,
       telephone: req.body.telephone,      
       company: req.body.company,
-      official: req.body.official,
-      escort: req.body.escort,
+      official: (req.body.official === 'True'),
+      escort: (req.body.escort === 'True'),
       escortName: req.body.escortName,
       date: new Date,
     }

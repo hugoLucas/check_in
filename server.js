@@ -7,6 +7,7 @@ const express = require('express'),
       admin = require('./server/routes/admin')
 
 require('dotenv').config();
+console.log(process.env.MONGO_URI);
 mongoose.connect(process.env.MONGO_URI);
 
 let app = express()

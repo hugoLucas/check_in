@@ -50,7 +50,8 @@ export default {
       username: '',
       password: '',
       pageNumber: 1,
-      maxItemsPerPage: 10,
+      maxItemsPerPage: 25,
+      // eslint-disable-next-line
       currentPageResults: new Array(),
       noMorePages: false,
       loading: false,
@@ -68,10 +69,10 @@ export default {
     },
     buttonStylePrev() {
       return this.pageNumber > 1 ? 'primary' : 'danger';
-    }
+    },
   },
   methods: {
-    login () {
+    login() {
       this.$validator.validateAll().then((result) => {
         if (result) {
           // eslint-disable-next-line
@@ -86,15 +87,15 @@ export default {
               this.accessDenied = true;
               window.setTimeout(() => {
                 this.accessDenied = false;
-              }, 1500); 
+              }, 1500);
             }
           }).then((error) => {
             if (error) {
+              // eslint-disable-next-line
               console.log('login error');
             }
           });
         }
-        return;
       });
     },
 
@@ -120,11 +121,13 @@ export default {
         this.loading = false;
       }).then((error) => {
         if (error) {
+          // eslint-disable-next-line
           console.log('ERROR', error);
         }
       });
     },
     processResults(results) {
+      // eslint-disable-next-line
       let cleanResults = new Array();
       for (let i = 0; i < results.length; i += 1) {
         const dataRow = {
@@ -133,7 +136,9 @@ export default {
           EmailAddress: results[i].email,
           Comapany: results[i].company,
         };
-        if (results[i].escort) {
+        console.log(results[i].escort)
+        console.log(results[i].escortName)
+        if (results[i].escort && results[i].escortName != '') {
           dataRow.EscortName = results[i].escortName;
         } else {
           dataRow.EscortName = 'N/A';
@@ -145,6 +150,7 @@ export default {
         }
         cleanResults.push(dataRow);
       }
+      // eslint-disable-next-line
       console.log(cleanResults);
       this.currentPageResults = cleanResults;
     },
