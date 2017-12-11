@@ -14,7 +14,7 @@
       </p>
       <label class="label" v-b-popover.hover="'Enter a number where we can reach you.'" title="Phone Number">Phone Number</label>
       <p :class="{ 'control': true }">
-        <b-form-input name="phone" v-model="phone" v-validate="'required|numeric|max:10'" :class="{'input': true, 'is-danger': errors.has('phone') && formSubmitted}" type="text" placeholder="(105) 457-1800"></b-form-input>
+        <b-form-input name="phone" v-model="phone" v-validate="'required|numeric|digits:10'" :class="{'input': true, 'is-danger': errors.has('phone') && formSubmitted}" type="text" placeholder="(105) 457-1800"></b-form-input>
         <small v-show="errors.has('phone') && formSubmitted" class="help is-danger">{{ errors.first('phone') }}</small>
       </p>
       <label class="label" v-b-popover.hover="'Enter the name of your current employer.'" title="Company">Company Name</label>
