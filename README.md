@@ -54,8 +54,8 @@ This application uses the tried-and-true three-tier architecture. Vue.js handles
 - [ ] Finish README
 - [ ] Add tablet specific styling to frontend 
 - [ ] Add dummy data to DB
-- [ ] Deploy to Digital Ocean
-- [ ] Test application on tablet
+- [X] Deploy to Digital Ocean
+- [X] Test application on tablet
 
 # Installation Instructions
 Before installing this application make sure that you have already installed Node and the Node Package Manager (NPM). Once you have done that clone this repository: 
