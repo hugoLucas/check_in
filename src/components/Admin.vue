@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="loginView" v-if="!this.authenticated">
-      <b-modal v-model="showLogin" title="Login" :header-bg-variant="this.accessDenied ? 'danger' : 'info'"
+      <b-modal v-model="showLogin" title="Login" :header-bg-variant="this.modalVariant"
       :no-close-on-backdrop="true" :no-close-on-esc="true" :cancel-disabled="true"
       :hide-header-close="true" :hide-footer="true" header-text-variant="light">
         <label class="label" title="username" for="username">Username</label>
@@ -17,8 +17,8 @@
           <small v-show="errors.has('password')" class="help is-danger">{{ errors.first('password') }}</small>
         </p>
         </br>
-        <b-btn class="mt-3" :variant="this.accessDenied ? 'outline-danger' : 'outline-info'" 
-          block @click="login">{{this.accessDenied ? 'Access Denied' : 'Login'}}</b-btn>
+        <b-btn class="mt-3" :variant="this.loginButtonVariant" 
+          block @click="login">{{this.loginButtonText}}</b-btn>
       </b-modal>
     </div>
     <div id="adminView" v-else>
@@ -58,6 +58,7 @@ export default {
       authenticated: false,
       showLogin: true,
       accessDenied: false,
+      networkError: false,
     };
   },
   components: {
@@ -69,6 +70,33 @@ export default {
     },
     buttonStylePrev() {
       return this.pageNumber > 1 ? 'primary' : 'danger';
+    },
+    modalVariant() {
+      if (this.accessDenied) {
+        return 'danger';
+      }
+      if (this.networkError) {
+        return 'warning';
+      }
+      return 'info';
+    },
+    loginButtonVariant() {
+      if (this.accessDenied) {
+        return 'outline-danger';
+      }
+      if (this.networkError) {
+        return 'outline-warning';
+      }
+      return 'outline-info';
+    },
+    loginButtonText() {
+      if (this.accessDenied) {
+        return 'Accessed Denied';
+      }
+      if (this.networkError) {
+        return 'Network Error';
+      }
+      return 'Login';
     },
   },
   methods: {
@@ -89,16 +117,19 @@ export default {
                 this.accessDenied = false;
               }, 1500);
             }
-          }).then((error) => {
+          }).catch((error) => {
             if (error) {
               // eslint-disable-next-line
-              console.log('login error');
+              console.log('CAUGHT ERROR', error.response)
+              this.networkError = true;
+              window.setTimeout(() => {
+                this.networkError = false;
+              }, 1500);
             }
           });
         }
       });
     },
-
     increment() {
       this.pageNumber = this.pageNumber + 1;
       this.getPostData(this.pageNumber);
@@ -136,9 +167,7 @@ export default {
           EmailAddress: results[i].email,
           Comapany: results[i].company,
         };
-        console.log(results[i].escort)
-        console.log(results[i].escortName)
-        if (results[i].escort && results[i].escortName != '') {
+        if (results[i].escort && results[i].escortName !== '') {
           dataRow.EscortName = results[i].escortName;
         } else {
           dataRow.EscortName = 'N/A';

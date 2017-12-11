@@ -34,7 +34,7 @@
         <b-form-radio-group v-model="selectedEscort" buttons button-variant="info" name="escortButtons" :options="this.optionsEscort"> </b-form-radio-group>
         <div class='escortInfo' v-show="selectedEscort == 'true'">
           <label class="label" v-b-popover.hover="'Please enter the name of your desired escort.'" title="escortName">Escort Name</label>
-          <b-form-input name="escortName" v-model="escortName" v-validate="escortRules" :class="{'input': true, 'is-danger': errors.has('escortName') && this.stringToBoolean(this.selectedEscort) && formSubmitted}" type="text" placeholder="Gustav Ludwig Hertz"></b-form-input>
+          <b-form-input name="escortName" v-model="escortName" v-validate="this.escortRules" :class="{'input': true, 'is-danger': errors.has('escortName') && this.stringToBoolean(this.selectedEscort) && formSubmitted}" type="text" placeholder="Gustav Ludwig Hertz"></b-form-input>
           <small v-show="errors.has('escortName') && formSubmitted" class="help is-danger">{{ errors.first('escortName') }}</small>
         </div>
       </div>
@@ -55,7 +55,7 @@
         </div>
       </b-modal>
 
-      <b-modal v-model="showNetworkErrorAlert" title="Alert" header-bg-variant="danger" header-text-variant="light">
+      <b-modal v-model="showNetworkErrorAlert" title="Network Error" header-bg-variant="danger" header-text-variant="light">
         <p class="my-4">Your submission did not go through, please try again.</p>
         <div slot="modal-footer" class="w-100">
           <b-btn size="sm" class="float-right" variant="primary" @click="showNetworkErrorAlert=false"> Ok </b-btn>
@@ -137,8 +137,10 @@ export default {
         } else {
           this.showNetworkErrorAlert = true;
         }
-      }).then((error) => {
+      }).catch((error) => {
         if (error) {
+          // eslint-disable-next-line
+          console.log('CAUGHT ERROR', error.response)
           this.showNetworkErrorAlert = true;
         }
       });
