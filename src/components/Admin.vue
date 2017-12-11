@@ -204,7 +204,7 @@ export default {
       for (let i = 0; i < results.length; i += 1) {
         const dataRow = {
           Name: results[i].name,
-          PhoneNumber: '' + results[i].telephone,
+          PhoneNumber: `${results[i].telephone}`,
           EmailAddress: results[i].email,
           Comapany: results[i].company,
         };
@@ -222,6 +222,7 @@ export default {
           dataRow.OfficialVisit = 'No';
           dataStyle.OfficialVisit = 'danger';
         }
+        // eslint-disable-next-line
         dataRow._cellVariants = dataStyle;
         cleanResults.push(dataRow);
       }
