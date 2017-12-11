@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
-    <div id="loginView" v-if="!this.authenticated">
-      <b-modal v-model="showLogin" title="Login" :header-bg-variant="this.modalVariant"
+  <div class="app">
+    <div class="loginView" v-if="!this.authenticated">
+      <b-modal centered v-model="showLogin" title="Login" :header-bg-variant="this.modalVariant"
       :no-close-on-backdrop="true" :no-close-on-esc="true" :cancel-disabled="true"
       :hide-header-close="true" :hide-footer="true" header-text-variant="light">
         <label class="label" title="username" for="username">Username</label>
@@ -21,24 +21,18 @@
           block @click="login">{{this.loginButtonText}}</b-btn>
       </b-modal>
     </div>
-    <div id="adminView" v-else>
-      <div class="loadingIcon" v-show="loading">
-        <circle8></circle8>
-      </div>
-      <div v-show="!loading">
-        <div class="navigation-buttons">
-          <b-button :disabled="this.pageNumber == 1" v-on:click="decrement" size='lg' :variant="buttonStylePrev"> Previous </b-button>
-          <b-button :disabled="this.noMorePages" v-on:click="increment" size='lg' :variant="buttonStyleNext"> Next </b-button>
-        </div>
+    <div class="adminView" v-else>
+      <div>
         <b-table striped hover :fields="fields" :items="currentPageResults">
           <template slot="index" scope="data">
-            {{ (data.index + 1) + ((pageNumber - 1) * maxItemsPerPage)}}
+            {{ (data.index + 1) }}
           </template>
           <template slot="PhoneNumber" scope="data">
             {{ "(" + data.item.PhoneNumber.substring(0,3) + ") " 
                 + data.item.PhoneNumber.substring(3,6) + "-" + data.item.PhoneNumber.substring(6,10)}}
           </template>
         </b-table>
+        <infinite-loading @infinite="infiniteHandler"></infinite-loading>
       </div>
     </div>
   </div>
@@ -46,13 +40,16 @@
 
 <script>
 import Vue from 'vue';
-import VeeValidate from 'vee-validate';
-import { Circle8 } from 'vue-loading-spinner';
 import axios from 'axios';
+import VeeValidate from 'vee-validate';
+import InfiniteLoading from 'vue-infinite-loading';
 
 Vue.use(VeeValidate);
 
 export default {
+  components: {
+    InfiniteLoading,
+  },
   data() {
     return {
       username: '',
@@ -61,8 +58,6 @@ export default {
       maxItemsPerPage: 25,
       // eslint-disable-next-line
       currentPageResults: new Array(),
-      noMorePages: false,
-      loading: false,
       authenticated: false,
       showLogin: true,
       accessDenied: false,
@@ -102,16 +97,7 @@ export default {
       ],
     };
   },
-  components: {
-    Circle8,
-  },
   computed: {
-    buttonStyleNext() {
-      return !this.noMorePages ? 'primary' : 'danger';
-    },
-    buttonStylePrev() {
-      return this.pageNumber > 1 ? 'primary' : 'danger';
-    },
     modalVariant() {
       if (this.accessDenied) {
         return 'danger';
@@ -171,30 +157,22 @@ export default {
         }
       });
     },
-    increment() {
+    infiniteHandler($state) {
       this.pageNumber = this.pageNumber + 1;
-      this.getPostData(this.pageNumber);
-    },
-    decrement() {
-      this.pageNumber = this.pageNumber - 1;
-      this.getPostData(this.pageNumber);
-    },
-    getPostData(pageNum) {
-      this.loading = true;
-      const apiPath = `http://localhost:3000/visitor/get/${pageNum - 1}/${this.maxItemsPerPage}`;
+      const apiPath = `http://localhost:3000/visitor/get/${this.pageNumber - 1}/${this.maxItemsPerPage}`;
       axios.get(apiPath).then((response) => {
         const dataRetrieved = response.data;
         if (Object.keys(dataRetrieved).length <= 0) {
-          this.noMorePages = true;
+          $state.complete();
         } else {
           this.processResults(dataRetrieved);
-          this.noMorePages = false;
+          $state.loaded();
         }
-        this.loading = false;
       }).then((error) => {
         if (error) {
           // eslint-disable-next-line
           console.log('ERROR', error);
+          $state.complete();
         }
       });
     },
@@ -228,11 +206,8 @@ export default {
       }
       // eslint-disable-next-line
       console.log(cleanResults);
-      this.currentPageResults = cleanResults;
+      this.currentPageResults = this.currentPageResults.concat(cleanResults);
     },
-  },
-  created() {
-    this.getPostData(1);
   },
 };
 </script>
@@ -241,21 +216,21 @@ export default {
 body {
   font-family: Helvetica, sans-serif;
   margin: 50px;
+  background-color: #42b883;
 }
 
-.loadingIcon {
-  position: fixed;
-  top: 50%;
-  left: 50%;
+.loginView {
+  width: 50%;
+  margin: 0 auto;
+}
+
+.app {
+  background-color: white;
 }
 
 .label {
   font-weight: bold;
   font-size: 20px;
-}
-
-.navigation-buttons {
-  padding-bottom: 20px;
 }
 
 .is-danger {
