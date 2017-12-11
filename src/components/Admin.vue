@@ -30,7 +30,7 @@
           <b-button :disabled="this.pageNumber == 1" v-on:click="decrement" size='lg' :variant="buttonStylePrev"> Previous </b-button>
           <b-button :disabled="this.noMorePages" v-on:click="increment" size='lg' :variant="buttonStyleNext"> Next </b-button>
         </div>
-        <b-table striped hover :items="currentPageResults"></b-table>
+        <b-table striped hover :fields="fields" :items="currentPageResults"></b-table>
       </div>
     </div>
   </div>
@@ -59,6 +59,38 @@ export default {
       showLogin: true,
       accessDenied: false,
       networkError: false,
+      fields: [
+        {
+          key: 'Name',
+          label: 'Name',
+          sortable: true,
+        },
+        {
+          key: 'PhoneNumber',
+          label: 'Phone Number',
+          sortable: false,
+        },
+        {
+          key: 'EmailAddress',
+          label: 'Email Address',
+          sortable: true,
+        },
+        {
+          key: 'Comapany',
+          label: 'Company Name',
+          sortable: true,
+        },
+        {
+          key: 'EscortName',
+          label: 'Escort Name',
+          sortable: true,
+        },
+        {
+          key: 'OfficialVisit',
+          label: 'Official?',
+          sortable: true,
+        },
+      ],
     };
   },
   components: {
@@ -167,16 +199,21 @@ export default {
           EmailAddress: results[i].email,
           Comapany: results[i].company,
         };
+        const dataStyle = {};
         if (results[i].escort && results[i].escortName !== '') {
           dataRow.EscortName = results[i].escortName;
         } else {
           dataRow.EscortName = 'N/A';
+          dataStyle.EscortName = 'danger';
         }
         if (results[i].official) {
           dataRow.OfficialVisit = 'Yes';
+          dataStyle.OfficialVisit = 'success';
         } else {
           dataRow.OfficialVisit = 'No';
+          dataStyle.OfficialVisit = 'danger';
         }
+        dataRow._cellVariants = dataStyle;
         cleanResults.push(dataRow);
       }
       // eslint-disable-next-line
