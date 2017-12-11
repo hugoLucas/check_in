@@ -6,7 +6,7 @@ const express = require('express'),
       visitor = require('./server/routes/visitor'),
       admin = require('./server/routes/admin')
 
-
+require('dotenv').config();
 mongoose.connect(process.env.MONGO_URI);
 
 let app = express()
