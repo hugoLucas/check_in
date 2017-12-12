@@ -218,7 +218,6 @@ export default {
 body {
   font-family: 'Roboto', sans-serif;
   margin: 50px;
-  background-color: #42b883;
 }
 
 b-table {

@@ -192,7 +192,6 @@ body {
 
 b-form {
   width: 480;
-  border-color: darkcyan;
 }
 
 h1 {
