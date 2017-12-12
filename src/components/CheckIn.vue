@@ -165,7 +165,6 @@ export default {
 <style>
 body {
   font-family: Helvetica, sans-serif;
-  padding-top: 40px;
   padding-left: 70px;
   padding-right: 70px;
 }
