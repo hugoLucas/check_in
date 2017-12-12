@@ -80,7 +80,7 @@ npm run build --report
 ```
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader). The backend can be run from the root directory using the following: 
 ```bash
-./node_modules/nodemon/bin/nodemon.js server.js
+npm run back
 ```
 Lastly, create a `.env` file with the following fields:
 ```
