@@ -158,7 +158,6 @@ export default {
       });
     },
     infiniteHandler($state) {
-      this.pageNumber = this.pageNumber + 1;
       const apiPath = `/backend/visitor/get/${this.pageNumber - 1}/${this.maxItemsPerPage}`;
       axios.get(apiPath).then((response) => {
         const dataRetrieved = response.data;
@@ -175,6 +174,7 @@ export default {
           $state.complete();
         }
       });
+      this.pageNumber = this.pageNumber + 1;
     },
     processResults(results) {
       // eslint-disable-next-line

@@ -165,13 +165,20 @@ export default {
 <style>
 body {
   font-family: Helvetica, sans-serif;
-  background: lightblue;
-  padding: 50px;
+  padding-top: 40px;
+  padding-left: 70px;
+  padding-right: 70px;
 }
 
 .label {
-  font-weight: bold;
-  font-size: 20px;
+  /* font-weight: bold; */
+  color: navy;
+  font-size: 20px;  
+  font-family: 'Trebuchet MS';
+}
+
+.input {
+  border-color: lightblue;
 }
 
 .radios {
@@ -183,8 +190,15 @@ body {
   width: 500px;
 }
 
+b-form {
+  width: 480;
+  border-color: darkcyan;
+}
+
 h1 {
-  text-align: center
+  color: navy;
+  text-align: center;
+  font-family: 'Trebuchet MS';
 }
 
 img {
@@ -199,5 +213,7 @@ img {
   border-color: red;
   color: red;
   font-weight: bold;
+  font-family: 'Trebuchet MS';
+
 }
 </style>
