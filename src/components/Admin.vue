@@ -213,8 +213,10 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
 body {
-  font-family: Helvetica, sans-serif;
+  font-family: 'Roboto', sans-serif;
   margin: 50px;
   background-color: #42b883;
 }
