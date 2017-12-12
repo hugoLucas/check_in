@@ -221,6 +221,10 @@ body {
   background-color: #42b883;
 }
 
+b-table {
+  font-family: 'Roboto', sans-serif;
+}
+
 .loginView {
   width: 50%;
   margin: 0 auto;
