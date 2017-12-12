@@ -9,12 +9,12 @@
       </p>
       <label class="label" v-b-popover.hover="'Let us know the which email address is best to reach you.'" title="Email" for="email">Email</label>
       <p :class="{ 'control': true }">
-        <b-form-input v-model="email" v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('email') && formSubmitted}" name="email" type="text" placeholder="max@lambda.com"></b-form-input>
+        <b-form-input v-model="email" v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('email') && formSubmitted}" name="email" type="email" placeholder="max@lambda.com"></b-form-input>
         <small v-show="errors.has('email') && formSubmitted" class="help is-danger">{{ errors.first('email') }}</small>
       </p>
       <label class="label" v-b-popover.hover="'Enter a number where we can reach you.'" title="Phone Number">Phone Number</label>
       <p :class="{ 'control': true }">
-        <b-form-input name="phone" v-model="phone" v-validate="'required|numeric|digits:10'" :class="{'input': true, 'is-danger': errors.has('phone') && formSubmitted}" type="text" placeholder="(105) 457-1800"></b-form-input>
+        <b-form-input name="phone" v-model="phone" v-validate="'required|numeric|digits:10'" :class="{'input': true, 'is-danger': errors.has('phone') && formSubmitted}" type="tel" placeholder="(105) 457-1800"></b-form-input>
         <small v-show="errors.has('phone') && formSubmitted" class="help is-danger">{{ errors.first('phone') }}</small>
       </p>
       <label class="label" v-b-popover.hover="'Enter the name of your current employer.'" title="Company">Company Name</label>
@@ -34,12 +34,12 @@
         <b-form-radio-group v-model="selectedEscort" buttons button-variant="info" name="escortButtons" :options="this.optionsEscort"> </b-form-radio-group>
         <div class='escortInfo' v-show="selectedEscort == 'true'">
           <label class="label" v-b-popover.hover="'Please enter the name of your desired escort.'" title="escortName">Escort Name</label>
-          <b-form-input name="escortName" v-model="escortName" v-validate="this.escortRules" :class="{'input': true, 'is-danger': errors.has('escortName') && this.stringToBoolean(this.selectedEscort) && formSubmitted}" type="text" placeholder="Gustav Ludwig Hertz"></b-form-input>
-          <small v-show="errors.has('escortName') && formSubmitted" class="help is-danger">{{ errors.first('escortName') }}</small>
+          <b-form-input name="escortName" v-model="escortName" v-validate="this.escortRules" data-vv-as="escort name" :class="{'input': true, 'is-danger': errors.has('escortName') && this.stringToBoolean(this.selectedEscort) && formSubmitted}" type="text" placeholder="Gustav Ludwig Hertz"></b-form-input>
+          <small v-show="errors.has('escortName')" class="help is-danger">{{ errors.first('escortName') }}</small>
         </div>
       </div>
 
-      <b-button type="submit" variant="primary" size="lg">Submit</b-button>
+      <b-button class="checkInButton" type="submit" variant="primary" size="lg">Submit</b-button>
 
       <b-modal v-model="showErrorAlert" title="Alert" header-bg-variant="warning" header-text-variant="light">
         <p class="my-4">Please correct the errors in you submission.</p>
@@ -97,9 +97,9 @@ export default {
       escortName: '',
     };
   },
-  computer: {
+  computed: {
     escortRules() {
-      return this.selectedEscort === 'true' ? 'required|alpha-spaces' : '';
+      return this.selectedEscort === 'true' ? 'required' : '';
     },
   },
   methods: {
@@ -213,5 +213,9 @@ img {
   font-weight: bold;
   font-family: 'Trebuchet MS';
 
+}
+
+.checkInButton {
+  margin-bottom: 20px;
 }
 </style>
